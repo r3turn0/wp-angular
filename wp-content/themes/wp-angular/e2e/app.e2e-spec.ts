@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('WP-Angular App', () => {
+describe('wp-angular App', () => {
   let page: AppPage;
 
   beforeEach(() => {
