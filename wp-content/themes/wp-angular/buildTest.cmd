@@ -1,0 +1,1 @@
+ng build --target=development --environment=dev --base-href="/wp-angular/" --deploy-url="//localhost/wp-angular/wp-content/themes/wp-angular/dist" 

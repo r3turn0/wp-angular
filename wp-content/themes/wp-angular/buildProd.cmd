@@ -1,0 +1,1 @@
+ng build --target=production --environment=prod --base-href="/" --deploy-url="//www.wp-angular.com/wp-content/themes/wp-angular/dist" 

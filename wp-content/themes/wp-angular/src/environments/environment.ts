@@ -6,6 +6,6 @@
 // For wamp server
 export const environment = {
   production: false,
-  wpBase: '//localhost/johnericta/wp-json/wp/v2/',
-  host: '//localhost/johnericta'
+  wpBase: '//localhost/wp-angular/wp-json/wp/v2/',
+  host: '//localhost/wp-angular'
 };

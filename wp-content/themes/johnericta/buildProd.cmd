@@ -1,1 +1,0 @@
-ng build --target=production --environment=prod --base-href="/" --deploy-url="//www.johnericta.com/wp-content/themes/johnericta/dist" 

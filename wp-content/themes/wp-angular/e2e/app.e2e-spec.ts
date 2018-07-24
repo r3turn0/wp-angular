@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('johnericta App', () => {
+describe('WP-Angular App', () => {
   let page: AppPage;
 
   beforeEach(() => {
