@@ -1,11 +1,10 @@
 <?php 
 // Start functions.php
 
-add_action( 'after_setup_theme', 'wp_angular_setup' );
-function wp_angular_setup() {
-	load_theme_textdomain( 'wp_angular', get_template_directory() . '/languages' );
-	add_theme_support( 'title-tag' );
-	//add_theme_support( 'automatic-feed-links' );
+/* -------------- THEME SETUP -------------- */
+add_action( 'after_setup_theme', 'SITENAME_setup' );
+function SITENAME_setup() {
+	load_theme_textdomain( 'SITENAME', get_template_directory() . '/languages' );
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 840, 0 );
 	add_image_size( 'landscape', 560, 420, true );
@@ -14,95 +13,55 @@ function wp_angular_setup() {
 	/*global $content_width;
 	if ( ! isset( $content_width ) ) $content_width = 640;
 		register_nav_menus(
-		array( 'main_menu' => __( 'Main Menu', 'wp_angular navigation' ) )
+		array( 'main_menu' => __( 'Main Menu', 'SITENAME navigation' ) )
 	);*/
 }
 
-/* -------------- QUEUE SCRIPTS -------------- */
-//add_action( 'wp_enqueue_scripts', 'wp_angular_load_scripts' );
-//function wp_angular_load_scripts()
-//{
-	/* ------------ CSS ------------ */
-	//wp_enqueue_style( 'font', '//fonts.googleapis.com/css?family=Titillium Web:300,400|Fira Sans:400,600');
-	//wp_enqueue_style( 'wp_angular-css',  get_template_directory_uri() . '/css/wp_angular.css');
-	/* ------------ SCRIPTS -------------- */
-	// Queue site script after loading array dependencies in Wordpress CORE. List of Built in pacakages can be found here:
-	// https://developer.wordpress.org/reference/functions/wp_enqueue_script/
-	//wp_enqueue_script('wp_angular-js', get_template_directory_uri() .'/js/wp_angular.js', array('jquery', 'jquery-ui-core'));
-//}
-
-/*add_action( 'comment_form_before', 'wp_angular_enqueue_comment_reply_script' );
-function wp_angular_enqueue_comment_reply_script() {
-	if ( get_option( 'thread_comments' ) ) { wp_enqueue_script( 'comment-reply' ); }
-}*/
-
-add_filter( 'the_title', 'wp_angular_title' );
-function wp_angular_title( $title ) {
-	if ( $title == '' ) {
-		return '&rarr;';
-	} else {
-		return $title;
-	}
-}
-
-add_filter( 'wp_title', 'wp_angular_filter_wp_title' );
-function wp_angular_filter_wp_title( $title ) {
-	return $title . esc_attr( get_bloginfo( 'name' ) );
-}
-
-// Add filter for title separator
-function change_title_separator(){
-	return ' | ';
-}
-add_filter('document_title_separator', 'change_title_separator');
-
-/*add_action( 'widgets_init', 'wp_angular_widgets_init' );
-function wp_angular_widgets_init() {
+/*add_action( 'widgets_init', 'SITENAME_widgets_init' );
+function SITENAME_widgets_init() {
 	register_sidebar( array (
-		'name' => __( 'Sidebar Widget Area', 'wp_angular' ),
-		'id' => 'primary-widget-area',
-		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-		'after_widget' => "</li>",
-		'before_title' => '<h3 class="widget-title" style="display: none;">',
+		'name' => __( 'Sidebar Widget', 'SITENAME' ),
+		'id' => 'sidebar-widget',
+		'before_widget' => '<div class="widget-container">',
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
 }*/
 
-/*function wp_angular_custom_pings( $comment ) {
-	$GLOBALS['comment'] = $comment;
-	?>
-	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>"><?php echo comment_author_link(); ?></li>
-	<?php 
-}*/
-
-/*add_filter( 'get_comments_number', 'wp_angular_comments_number' );
-function wp_angular_comments_number( $count ) {
-	if ( !is_admin() ) {
-		global $id;
-		$comments_by_type = &separate_comments( get_comments( 'status=approve&post_id=' . $id ) );
-		return count( $comments_by_type['comment'] );
-	} else {
-		return $count;
-	}
-}*/
-
-/* ------------- Show all categories ------------ */
+/* ------------- SHOW ALL CATEGORIES ------------ */
 add_filter( 'widget_categories_args', 'wpb_force_empty_cats' );
 function wpb_force_empty_cats($cat_args) {
     $cat_args['hide_empty'] = 0;
     return $cat_args;
 }
 
-/* ------------ HEADER IMAGE ------------ 
-$headerDef = array(
-	'flex-width'    => true,
-	'flex-height'   => true,
-	'header-text'   => true,
-	'default-image' => get_template_directory_uri() . '/images/header.jpg',
-);
-add_theme_support( 'custom-header', $headerDef );*/
+/* ------------ HEADER IMAGE ------------ */
+function header_img_setup() {
+	$defaults = array(
+		'height' => 'auto',
+        'width'  => 'auto',
+		'flex-width'    => true,
+		'flex-height'   => true,
+	);
+	add_theme_support( 'custom-header', $defaults );
+}
+add_action( 'after_setup_theme', 'header_img_setup' );
 
-// get images
+/* ------------ LOGO ------------ */
+function logo_setup() {
+    $defaults = array(
+        'height'      => 'auto',
+        'width'       => 'auto',
+        'flex-height' => true,
+        'flex-width'  => true,
+        'header-text' => array( 'site-title', 'site-description' ),
+    );
+    add_theme_support( 'custom-logo', $defaults );
+}
+add_action( 'after_setup_theme', 'logo_setup' );
+
+// GET IMAGES
 function get_thumbnail_url($post){
     if(has_post_thumbnail($post['id'])){
         $imgArray = wp_get_attachment_image_src( get_post_thumbnail_id( $post['id'] ), 'full' ); // replace 'full' with 'thumbnail' to get a thumbnail
@@ -116,9 +75,16 @@ function get_thumbnail_url($post){
 function add_site_settings() {
 	$title = esc_attr( get_bloginfo( 'name' ) );
 	$description = esc_attr( get_bloginfo( 'description' ) );
+	$headerImg = get_header_image();
+	$logo = getCustomLogo();
+	$theme = wp_get_theme();
+	$version = $theme->get('Version');
 	$settings = array(
 		'title' => $title,
-		'description' => $description
+		'description' => $description,
+		'headerImage' => $headerImg,
+		'logo' => $logo,
+		'versions' => $theme->get('Version')
 	);
 	return $settings;
 }

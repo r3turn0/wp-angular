@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { WpPost } from './wp-post';
-import { WpCategory } from './wp-category';
 @Pipe({name: 'filterByCategory'})
 export class FilterByCategory implements PipeTransform {
   transform(posts: WpPost[], categoryId: number): WpPost[] {
