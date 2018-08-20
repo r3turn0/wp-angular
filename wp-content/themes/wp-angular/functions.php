@@ -61,6 +61,12 @@ function logo_setup() {
 }
 add_action( 'after_setup_theme', 'logo_setup' );
 
+function getCustomLogo(){
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+	return $image[0];
+}
+
 // GET IMAGES
 function get_thumbnail_url($post){
     if(has_post_thumbnail($post['id'])){
