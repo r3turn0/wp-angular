@@ -5,7 +5,7 @@ import { WpMedia } from './wp-media';
 import { environment } from '../environments/environment';
 
 @Injectable()
-export class WpPagesService {
+export class WpMediaService {
 
   private _wpBase = environment.wpBase;
 

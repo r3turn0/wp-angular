@@ -7,6 +7,7 @@ import { WpPageComponent } from './wp-page/wp-page.component';
 import { PageContentComponent } from './wp-page/page-content/page-content.component';
 import { WpPagesService } from './wp-pages.service';
 import { WpPostsService } from './wp-posts.service';
+import { WpMediaService } from './wp-media.service';
 import { FilterByCategory } from './filterByCategory';
 
 @NgModule({
@@ -21,7 +22,11 @@ import { FilterByCategory } from './filterByCategory';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [WpPagesService, WpPostsService],
+  providers: [
+    WpPagesService, 
+    WpPostsService,
+    WpMediaService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
